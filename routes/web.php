@@ -3,10 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SuratMasukController; //dipanggil controller SuratMasukControllers
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::get('/', function () {
+   //return view('welcome');
    //return redirect('https://www.youtube.com/');
-});
+//});
 
 // route dasar
 /*Route::get('/surat-masuk', function () {
@@ -22,6 +22,10 @@ Route::get('/surat-masuk/{id}', function ($id) {
 Route::get('/surat-masuk/{id}', function ($id) {
     return 'Halaman surat masuk ' . $id;
 })->name('surat-masuk.show');*/
+
+Route::get('/', function () {
+    return view('dashboard');
+}) ->name('dashboard');
 
 Route::get('/surat-masuk', [SuratMasukController::class, 'index'])->name('surat-masuk.index');
 Route::get('/surat-masuk/{id}', [SuratMasukController::class, 'show'])->name('surat-masuk.show');
