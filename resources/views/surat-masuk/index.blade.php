@@ -1,76 +1,40 @@
-<!-- <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surat Masuk</title>
-</head>
-<body>
-    <h1>Halaman ini menampilkan data surat masuk</h1>
-    <table border="1" cellpadding="10">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nomor Surat</th>
-                <th>Tanggal Surat</th>
-                <th>Pengirim</th>
-                <th>Perihal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($suratMasuk as $surat)
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $surat['nomor_surat'] }}</td>
-                <td>{{ $surat['tanggal_surat'] }}</td>
-                <td>{{ $surat['pengirim'] }}</td>
-                <td>{{ $surat['perihal'] }}</td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</body> 
-</html> -->
-
 @extends('layouts.app')
-
-@section('title', 'Surat Masuk')
-
+@section('title', 'Daftar Surat Masuk')
 @section('content')
-
-    <h1>Daftar Surat Masuk</h1>
-    <table border="1" cellpadding="10">
-
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nomor Surat</th>
-                <th>Tanggal Surat</th>
-                <th>Pengirim</th>
-                <th>Perihal</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach ($suratMasuk as $surat)
-
-            <tr>
-                <td>{{ $loop->iteration }}</td>
-                <td>{{ $surat['nomor_surat'] }}</td>
-                <td>{{ $surat['tanggal_surat'] }}</td>
-                <td>{{ $surat['pengirim'] }}</td>
-                <td>{{ $surat['perihal'] }}</td>
-
-                <td>
-                    <a href="{{ route('surat-masuk.show', $surat['id']) }}">
-                        Detail
-                    </a>
-                </td>
-            </tr>
-
-            @endforeach
-
-        </tbody>
-    </table>
-    @endsection
+<h1>Daftar Surat Masuk</h1>
+<a href="{{route('surat-masuk.create') }}">+ Tambah Surat</a>
+@if (session('success'))
+    <p style="color:green">{{ session('success') }}</p>
+@endif
+<table border="1" cellpadding="8">
+    <thead><tr>
+        <th>No</th><th>Nomor</th><th>Tanggal</th>
+        <th>Pengirim</th><th>Perihal</th><th>Aksi</th>
+</tr></thead>
+<tbody>
+@forelse ($suratMasuk as $surat)
+    <tr>
+        <td>{{ $loop->iteration }}</td>
+        <td>{{ $surat->nomor_surat }}</td>
+        <td>{{ $surat->tanggal }}</td>
+        <td>{{ $surat->pengirim }}</td>
+        <td>{{ $surat->perihal }}</td>
+<td>
+    <a href="{{route('surat-masuk.show', $surat->id) }}">Detail</a>
+    <a href="{{route('surat-masuk.edit', $surat->id) }}">Edit</a>
+   <form action="{{ route('surat-masuk.destroy', $surat->id) }}"
+        method="POST" style="display:inline">
+        @csrf
+        @method('DELETE')
+        <button type="submit" onclick="return confirm('Apakah Anda yakin ingin menghapus surat ini?')">Hapus</button>
+    </form>
+</td>
+</tr>
+@empty
+<tr>
+    <td colspan="6">Belum ada surat masuk.</td>
+</tr>
+@endforelse
+</tbody>
+</table>
+@endsection
