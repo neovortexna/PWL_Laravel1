@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Gaya dasar ---------- */
+@layer base {
+    body {
+        @apply bg-slate-100 text-slate-700 antialiased;
+    }
+
+    h1 {
+        @apply text-2xl font-bold tracking-tight text-slate-900;
+    }
+}
+
+/* ---------- Komponen yang dipakai ulang di semua halaman ---------- */
+@layer components {
+    /* Kartu / panel putih */
+    .card {
+        @apply rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200;
+    }
+
+    /* Tombol */
+    .btn {
+        @apply inline-flex items-center justify-center gap-1 rounded-lg px-4 py-2 text-sm font-semibold
+               transition focus:outline-none focus:ring-2 focus:ring-offset-2;
+    }
+    /* Tombol utama: kuning Woody */
+    .btn-primary {
+        @apply btn bg-amber-400 text-amber-950 hover:bg-amber-300 focus:ring-amber-500;
+    }
+    .btn-secondary {
+        @apply btn bg-white text-slate-700 ring-1 ring-slate-300 hover:bg-slate-50 focus:ring-slate-400;
+    }
+    /* Tombol hapus: merah bandana Woody */
+    .btn-danger {
+        @apply btn bg-red-600 px-3 py-1.5 text-white hover:bg-red-700 focus:ring-red-500;
+    }
+    .btn-sm {
+        @apply px-3 py-1.5 text-xs;
+    }
+
+    /* Form */
+    .form-label {
+        @apply mb-1 block text-sm font-medium text-slate-700;
+    }
+    .form-input {
+        @apply block w-full rounded-lg border-0 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm
+               ring-1 ring-inset ring-slate-300 placeholder:text-slate-400
+               focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600;
+    }
+    .form-error {
+        @apply mt-1 block text-sm text-red-600;
+    }
+
+    /* Notifikasi sukses */
+    .alert-success {
+        @apply mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700;
+    }
+
+    /* Tabel */
+    .table-wrap {
+        @apply overflow-x-auto rounded-xl bg-white shadow-sm ring-1 ring-slate-200;
+    }
+    .table-base {
+        @apply min-w-full divide-y divide-slate-200 text-sm;
+    }
+    .table-base thead {
+        @apply bg-slate-50;
+    }
+    .table-base th {
+        @apply px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500;
+    }
+    .table-base td {
+        @apply whitespace-nowrap px-4 py-3 text-slate-700;
+    }
+    .table-base tbody {
+        @apply divide-y divide-slate-100;
+    }
+    .table-base tbody tr {
+        @apply transition hover:bg-indigo-50/50;
+    }
+
+    /* Tautan di tabel */
+    .link-action {
+        @apply font-medium text-indigo-600 hover:text-indigo-800 hover:underline;
+    }
+}
+

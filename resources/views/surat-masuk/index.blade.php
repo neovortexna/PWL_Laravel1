@@ -1,14 +1,17 @@
 @extends('layouts.app')
 @section('title', 'Daftar Surat Masuk')
 @section('content')
-  <h1>Daftar Surat Masuk</h1>
-  @can('manage-letters')
-    <a href="{{ route('surat-masuk.create') }}">+ Tambah Surat</a>
-  @endcan
+  <div class="mb-6 flex flex-wrap items-center justify-between gap-3">
+    <h1>Daftar Surat Masuk</h1>
+    @can('manage-letters')
+      <a href="{{ route('surat-masuk.create') }}" class="btn-primary">+ Tambah Surat</a>
+    @endcan
+  </div>
   @if (session('success'))
-    <p style="color:green">{{ session('success') }}</p>
+    <p class="alert-success">{{ session('success') }}</p>
   @endif
-  <table border="1" cellpadding="8">
+  <div class="table-wrap">
+  <table class="table-base">
     <thead>
       <tr>
         <th>No</th>
@@ -23,28 +26,31 @@
       @forelse ($suratMasuk as $surat)
         <tr>
           <td>{{ $loop->iteration }}</td>
-          <td>{{ $surat->nomor_surat }}</td>
+          <td class="font-medium text-slate-900">{{ $surat->nomor_surat }}</td>
           <td>{{ $surat->tanggal }}</td>
           <td>{{ $surat->pengirim }}</td>
           <td>{{ $surat->perihal }}</td>
           <td>
-            <a href="{{ route('surat-masuk.show', $surat->id) }}">Detail</a>
+            <div class="flex items-center gap-3">
+              <a href="{{ route('surat-masuk.show', $surat->id) }}" class="link-action">Detail</a>
 
-            @can('manage-letters')
-              <a href="{{ route('surat-masuk.edit', $surat->id) }}">Edit</a>
-              <form method="POST" action="{{ route('surat-masuk.destroy', $surat->id) }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit">Hapus</button>
-              </form>
-            @endcan
+              @can('manage-letters')
+                <a href="{{ route('surat-masuk.edit', $surat->id) }}" class="link-action">Edit</a>
+                <form method="POST" action="{{ route('surat-masuk.destroy', $surat->id) }}" class="inline">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn-danger btn-sm">Hapus</button>
+                </form>
+              @endcan
+            </div>
           </td>
         </tr>
       @empty
         <tr>
-          <td colspan="6">Belum ada surat masuk .< /td>
+          <td colspan="6" class="py-10 text-center text-slate-500">Belum ada surat masuk .</td>
         </tr>
       @endforelse
     </tbody>
   </table>
+  </div>
 @endsection
