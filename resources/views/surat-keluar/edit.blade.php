@@ -3,7 +3,7 @@
 @section('content')
 <h1 class="mb-6">Edit Surat Keluar</h1>
 <div class="card max-w-2xl">
-<form action="{{ route('surat-keluar.update', $surat->id) }}" method="POST" class="grid gap-5">
+<form action="{{ route('surat-keluar.update', $surat->id) }}" method="POST" enctype="multipart/form-data" class="grid gap-5">
     @csrf
     @method('PUT')
         <div>
@@ -31,6 +31,36 @@
             <textarea class="form-input" id="keterangan" name="keterangan" rows="4">{{ old('keterangan', $surat->keterangan) }}</textarea>
             @error('keterangan') <span class="form-error">{{ $message }}</span> @enderror
         </div>
+
+        {{-- ===== Tambahan P6 ===== --}}
+        <div>
+            <label class="form-label" for="category_id">Kategori</label>
+            <select class="form-input" id="category_id" name="category_id">
+                <option value="">-- Tanpa kategori --</option>
+                @foreach ($categories as $kategori)
+                    <option value="{{ $kategori->id }}"
+                        @selected(old('category_id', $surat->category_id) == $kategori->id)>
+                        {{ $kategori->nama }}
+                    </option>
+                @endforeach
+            </select>
+            @error('category_id') <span class="form-error">{{ $message }}</span> @enderror
+        </div>
+
+        <div>
+            <label class="form-label" for="lampiran">Lampiran (PDF/JPG/PNG, maks. 2 MB)</label>
+            <input class="form-input" id="lampiran" type="file" name="lampiran" accept=".pdf,.jpg,.jpeg,.png">
+            @if ($surat->lampiran)
+                <p class="mt-1 text-xs text-slate-500">
+                    Lampiran saat ini:
+                    <a href="{{ asset('storage/'.$surat->lampiran) }}" target="_blank" rel="noopener" class="link-action">lihat</a>.
+                    Unggah file baru untuk menggantinya.
+                </p>
+            @endif
+            @error('lampiran') <span class="form-error">{{ $message }}</span> @enderror
+        </div>
+        {{-- ===== Akhir tambahan ===== --}}
+
     <div class="flex items-center gap-3 pt-2">
         <button type="submit" class="btn-primary">Simpan Perubahan</button>
         <a href="{{ route('surat-keluar.index') }}" class="btn-secondary">Batal</a>

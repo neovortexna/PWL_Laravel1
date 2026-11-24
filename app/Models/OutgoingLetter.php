@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OutgoingLetter extends Model
 {
@@ -11,9 +12,16 @@ class OutgoingLetter extends Model
 
     protected $fillable = [
         'nomor_surat',
-        'tujuan_surat',
-        'tanggal_keluar',
+        'tanggal',
+        'pengirim',
         'perihal',
-        // Tambahkan kolom lain jika di database Anda ada kolom tambahan
+        'keterangan',
+        'category_id',
+        'lampiran',
     ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
