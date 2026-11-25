@@ -39,7 +39,7 @@ class SuratKeluarController extends Controller
             $query->where('category_id', $request->input('category_id'));
         }
 
-        $suratKeluar = $query->latest('id')->paginate(5)->withQueryString();
+        $suratKeluar = $query->latest('id')->paginate(5)->appends($request->query());
         $categories  = Category::orderBy('nama')->get();
 
         return view('surat-keluar.index', compact('suratKeluar', 'categories'));
@@ -86,12 +86,19 @@ class SuratKeluarController extends Controller
 
         if ($request->hasFile('lampiran')) {
             $pathLama = $surat->lampiran;
-            $validated['lampiran'] = $request->file('lampiran')
-                ->store('lampiran-surat', 'public');
-            $surat->update($validated);
+            $pathBaru = $request->file('lampiran')->store('lampiran-surat', 'public');
+            $validated['lampiran'] = $pathBaru;
+
+            try {
+                $surat->update($validated);
+            } catch (\Throwable $e) {
+                Storage::disk('public')->delete($pathBaru); // bersihkan file yatim
+                throw $e;
+            }
+
             if ($pathLama) Storage::disk('public')->delete($pathLama);
         } else {
-            unset($validated['lampiran']);   // pertahankan lampiran lama
+            unset($validated['lampiran']); // pertahankan lampiran lama
             $surat->update($validated);
         }
 

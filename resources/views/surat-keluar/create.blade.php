@@ -3,7 +3,7 @@
 @section('content')
 <h1 class="mb-6">Tambah Surat Keluar</h1>
 <div class="card max-w-2xl">
-<<form action="{{ route('surat-keluar.store') }}" method="POST" enctype="multipart/form-data" class="grid gap-5">
+<form action="{{ route('surat-keluar.store') }}" method="POST" enctype="multipart/form-data" class="grid gap-5">
     @csrf
         <div>
             <label class="form-label" for="nomor_surat">Nomor Surat</label>
